@@ -36,4 +36,4 @@ Afther that You can open the index.html file inside the "allure-report" folder w
 
 # Patterns
 
-OOP and POM pattern were used
+OOP and POM pattern were used.
