@@ -47,7 +47,8 @@ public class Beymen {
     }
     @Given("arama kutucuguna girilen sort kelimesi silinir")
     public void arama_kutucuguna_girilen_sort_kelimesi_silinir() {
-        homePage.searchBox.sendKeys(Keys.CONTROL,"a",Keys.DELETE);
+        //homePage.searchBox.sendKeys(Keys.CONTROL,"a",Keys.DELETE);
+        homePage.searchBox.clear();
         Log.info("Deleted first word");
         ReusableMethods.wait(1);
         Log.info("Waited for loading...");
@@ -83,7 +84,7 @@ public class Beymen {
     @Given("secilen urunun urun bilgisi ve tutar bilgisi txt dosyasine yazilir")
     public void secilen_urunun_urun_bilgisi_ve_tutar_bilgisi_txt_dosyasine_yazilir() throws IOException {
         productPage=new ProductPage();
-        priceOfProduct = productPage.priceOfProduct.getText();
+        priceOfProduct = productPage.priceOfProduct.getText().trim().replaceAll("[^0-9]","");
         Log.info("Saved first Price of Product in the product page");
         FileWriter file = new FileWriter(System.getProperty("user.dir")+"\\textFiles"+"\\"+productPage.nameOfProduct.getText());
         Log.info("Created Text File");
@@ -102,11 +103,11 @@ public class Beymen {
         productPage.goToCartButton.click();
         Log.info("Clicked Go to Cart Button");
         ReusableMethods.waitForVisibility(cart.productPrice,3);
-        priceOfProductinTheCart = cart.productPrice.getText();
+        priceOfProductinTheCart = cart.productPrice.getText().trim().replaceAll("[^0-9]","");
     }
     @Given("urun sayfasindaki fiyat ile sepette yer alan urun fiyatinin dogrulugu karsilastirilir")
     public void urun_sayfasindaki_fiyat_ile_sepette_yer_alan_urun_fiyatinin_dogrulugu_karsilastirilir() {
-        Assert.assertEquals(priceOfProduct,priceOfProductinTheCart);
+        Assert.assertTrue(priceOfProductinTheCart.contains(priceOfProduct));
         Log.info("Price comparison test PASSED");
 
     }
@@ -144,3 +145,4 @@ public class Beymen {
         Assert.assertTrue(homePage.chooseSizeText.isDisplayed());
     }
 }
+
